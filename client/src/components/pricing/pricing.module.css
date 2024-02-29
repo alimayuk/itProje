@@ -1,0 +1,93 @@
+.pricing{
+    padding: 100px 10px;
+}
+.container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 10px;
+}
+
+
+.plans{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+}
+.plan{
+    background: linear-gradient(var(--gradient3));
+    max-width: 350px;
+    min-height: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    align-items: center;
+    padding: 20px 40px;
+    gap: 40px;
+    color: var(--color0);
+    box-shadow: var(--boxShadow);
+}
+.planTop{
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+}
+.icon{
+    position: relative;
+    width: 128px;
+    height: 128px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+}
+.icon img{
+    position: absolute;
+    z-index: -1;
+}
+
+.icon svg{
+    width: 56px;
+    height: 56px;
+    color: white;
+}
+
+.planTop{
+    display: flex;
+    align-items: center;
+    color: var(--color0);
+}
+
+.planTitle{
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 32px;
+}
+
+.priceItem{
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 32px;
+}
+
+.topLeft{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.features{
+   display: flex;
+   flex-direction: column;
+   width: 100%;
+   justify-content: flex-start;
+   gap: 30px;
+}
+
+.features ul{
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}

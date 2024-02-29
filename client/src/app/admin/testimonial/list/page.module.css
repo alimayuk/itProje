@@ -1,0 +1,69 @@
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 50px 10px;
+}
+.container h2 {
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 32px;
+  color: var(--colorblack);
+  margin-bottom: 20px;
+}
+.lists{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.item {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  justify-content: center;
+  width: 300px;
+  border: 1px solid grey;
+  padding: 25px 10px;
+}
+
+.first {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.third {
+  display: flex;
+  justify-content: space-evenly;
+}
+.statusBtn,
+.ratingBtn,
+.editBtn,
+.deleteBtn {
+  width: 100px;
+  height: 40px;
+  border-radius: 5px;
+  color: var(--color0);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 40px;
+  text-align: center;
+  cursor: pointer;
+  background-color: red;
+}
+
+.statusBtn {
+  background-color: var(--colorgreen);
+}
+
+.ratingBtn {
+  background-color: var(--coloryellow);
+}
+
+.editBtn {
+  background-color: var(--colororange);
+}
+.deleteBtn {
+  background-color: red;
+}

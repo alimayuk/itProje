@@ -1,0 +1,64 @@
+.project {
+position: relative;
+  padding: 240px 0px;
+  background: var(--colorblack1);
+  color: var(--color0);
+  z-index: 1;
+  margin-top: -117.5px;
+}
+
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.title {
+  text-align: center;
+  margin-bottom: 75px;
+}
+.title h2{
+    font-size: 40px;
+    font-weight: 700;
+    line-height: 40px;
+    color: var(--color0);
+}
+
+.top {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 400;
+  color: var(--color8);
+  justify-content: center;
+  margin-bottom: 30px;
+}
+
+.serviceright{
+    position: absolute;
+    bottom: 0;
+    right: 0;
+}
+
+.serviceleft{
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+@media screen and (max-width: 1024px){
+    .serviceleft, .serviceright{
+        display: block;
+    }
+}
+
+@media screen and (max-width: 600px){
+    .serviceleft, .serviceright{
+        display: none;
+    }
+    .title h2{
+        font-size: 32px;
+        font-weight: 700;
+        line-height: 40px;
+
+    }
+}

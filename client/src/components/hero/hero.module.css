@@ -1,0 +1,127 @@
+.hero {
+  padding: 200px 0px 100px;
+  background: linear-gradient(var(--gradient1));
+  color: var(--color0);
+  overflow: hidden;
+  position: relative;
+  z-index: 1;
+}
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  min-height: calc(100vh - 250px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 10px;
+}
+.ImgWrapper {
+  position: relative;
+  align-self: stretch;
+  flex-shrink: 0;
+  width: 50%;
+  height: 600px;
+  align-self: center;
+}
+.ImgWrapper img {
+  object-fit: contain;
+  aspect-ratio: 1;
+}
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 30px;
+  flex: 1;
+}
+.title {
+  font-size: 72px;
+  font-weight: 700;
+  color: var(--color0);
+  letter-spacing: 2px;
+}
+
+.subTitle {
+  background-color: var(--color2);
+  padding: 5px 15px;
+}
+.paragraph {
+  line-height: 27px;
+  color: var(--color1);
+}
+.buttons {
+  display: flex;
+  align-items: center;
+  gap: 50px;
+}
+.videoWrapper {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  font-size: 18px;
+}
+.video {
+  width: 40px;
+  height: 40px;
+}
+
+.bannerThreeBg {
+  position: absolute;
+  right: 0px;
+  bottom: 0px;
+  z-index: -1;
+}
+.bannerThreeBg2 {
+  position: absolute;
+  left: 20px;
+  bottom: 80px;
+  z-index: -1;
+}
+.bannerThreeBg3 {
+  position: absolute;
+  left: 0px;
+  bottom: 10px;
+  z-index: -1;
+}
+
+
+@media screen and (max-width: 1024px) {
+  .hero{
+    padding: 100px 0px;
+  }
+  .title {
+    font-size: 64px;
+  }
+  .container {
+    gap: 50px;
+    padding-top: 60px;
+    flex-direction: column-reverse;
+  }
+  .bannerImgWrapper2{
+    display: none;
+  }
+  .ImgWrapper {
+    height: 400px;
+    width: 100%;
+    flex: none;
+  }
+  .content {
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+    text-align: center;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .title {
+    font-size: 42px;
+  }
+  .buttons {
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+    text-align: center;
+    margin-top: 20px;
+  }
+}

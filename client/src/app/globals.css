@@ -1,0 +1,136 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--colorblack);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color1);
+}
+
+:root {
+  --colorblack: #000;
+  --colorblack1: #0f0d1d;
+  --color0: #fff;
+  --color1: #b4b4b4;
+  --color2: #b4b4b433;
+  --color3: #6b6b6be3;
+  --color4: #f8f2f2c2;
+  --color5: #0F0D1D;
+  --color7: #e0eafb;
+  --color8: #3c72fc;
+  --color9: #142958;
+  --color10: #9c9c9c;
+  --colorgreen: rgb(6, 129, 6);
+  --colororange: rgb(194, 137, 15);
+  --colorred: rgb(214, 7, 7);
+  --coloryellow: rgb(177, 177, 21);
+  --gradient1: 90deg, #0f0d1d -76.72%, #3c72fc 191.51%;
+  --gradient2: 90deg, #3c72fc -10.59%, #00060c 300.59%;
+  --gradient3: 0deg, rgba(0, 6, 12, 1) 21%, rgba(60, 114, 252, 1) 99%;
+  --boxShadow: rgba(0, 0, 0, 0.25) 0px 14px 28px,
+    rgba(0, 0, 0, 0.22) 0px 10px 10px;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+ul {
+  list-style: none;
+}
+.test .slick-slider {
+  max-width: 600px;
+  max-height: fit-content !important;
+  margin: 0 auto;
+}
+.slick-arrow::before {
+  color: var(--color0) !important;
+}
+
+.slick-next {
+  position: absolute !important;
+  left: 70px !important;
+  top: -20px !important;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--color8) !important;
+  padding: 20px !important;
+}
+.slick-prev {
+  position: absolute !important;
+  left: 10px !important;
+  top: -20px !important;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--color8) !important;
+  padding: 20px !important;
+}
+.project .slick-dots {
+  margin: -40px 0 !important;
+}
+.project .slick-dots li button::before {
+  color: var(--color8) !important;
+}
+
+@keyframes swayX {
+  0% {
+    transform: translateX(20px);
+  }
+  100% {
+    transform: translateX(0px);
+  }
+}
+.swayAnimaionX {
+  animation: swayX 3s linear infinite alternate;
+}
+@keyframes sway_Y {
+  0% {
+    transform: translateY(0px);
+  }
+  100% {
+    transform: translateY(20px);
+  }
+}
+.swayAnimaionY {
+  animation: sway_Y 3s linear infinite alternate;
+}
+@keyframes swayX {
+  0% {
+    transform: translateX(20px);
+  }
+  100% {
+    transform: translateX(0px);
+  }
+}
+.swayAnimaionX {
+  animation: swayX 3s linear infinite alternate;
+}
+
+/* containers */
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.solution {
+  padding: 100px 10px;
+  position: relative;
+  overflow: hidden;
+}

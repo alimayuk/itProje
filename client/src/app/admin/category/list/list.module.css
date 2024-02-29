@@ -1,0 +1,57 @@
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 50px 10px;
+}
+.container h2 {
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 32px;
+  color: var(--colorblack);
+  margin-bottom: 20px;
+}
+.lists{
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    
+    color: var(--color0);
+}
+
+.item{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    background: var(--color9);
+    padding: 20px 10px;
+    border-radius: 10px;
+}
+.title, .middle, .actionBtns{
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    min-width: 150px;
+}
+ .statusBtn , .editBtn , .deleteBtn {
+    text-align: center;
+    background: black;
+    color: var(--color0);
+    max-width: max-content;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+ }
+
+ .statusBtn{
+    background: var(--colorgreen);
+ }
+
+ .editBtn{
+    background: var(--colororange);
+ }
+
+ .deleteBtn{
+    background: var(--colorred);
+ }

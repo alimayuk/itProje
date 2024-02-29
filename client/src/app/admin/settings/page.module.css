@@ -1,0 +1,82 @@
+.container{
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 50px 10px;
+}
+
+.container h2{
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 32px;
+    color: var(--colorblack);
+    margin-bottom: 20px;
+}
+
+.form{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    background: var(--color2);
+    max-width: 100%;
+    gap: 30px;
+    padding: 60px 10px;
+}
+.formItem , .counterWrapper{
+    width: 50%;
+}
+.counterWrapper{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.formItem input, .counterWrapper input{
+    width: 100%;
+    padding: 10px;
+    border: 1px solid var(--color3);
+    border-radius: 5px;
+    outline: none;
+}
+.item{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.custumFileUpload {
+    height: 100px;
+    width: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: space-between;
+    gap: 20px;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    border: 2px dashed var(--color1);
+    border-radius: 10px;
+  }
+  
+  .custumFileUpload .icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .custumFileUpload .icon svg {
+    height: 30px;
+    fill: rgba(75, 85, 99, 1);
+  }
+  
+  .custumFileUpload .text {
+    text-align: center;
+  }
+  
+  .custumFileUpload .text span {
+    color: var(--color1);
+    font-size: 16px;
+  }
+  
+  .custumFileUpload input {
+    display: none;
+  }
+  

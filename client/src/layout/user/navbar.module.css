@@ -1,0 +1,134 @@
+.navbar {
+  position: fixed;
+  width: 100%;
+  z-index: 999;
+}
+.line{
+  border-bottom: 1px solid var(--color1);
+}
+.nav {
+  display: flex;
+  max-width: 1280px;
+  margin: 0 auto;
+  justify-content: space-between;
+  height: 100px;
+  align-items: center;
+  color: var(--color0);
+  font-weight: 600;
+  padding: 0 10px;
+}
+.sticky {
+  background-color: var(--color9);
+  transition: all 0.5s ease;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+.linksWrapper {
+  display: flex;
+  height: 100%;
+}
+.links {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+}
+
+.links li {
+  transition: all 0.3s ease;
+}
+
+.links li:hover {
+  color: var(--color1);
+}
+
+.menuBtn{
+  display: none;
+}
+
+.sidebar{
+  display: none;
+}
+
+@media screen and (max-width:1024px){
+  .menuBtn{
+    display: block;
+    font-size: 30px;
+  }
+ .linksWrapper, .button{
+        display: none;
+    }
+    .sidebar{
+      position: fixed;
+      top: 0;
+      right: 0;
+      right: 0;
+      bottom: 0;
+      width: 320px;
+      height: 100%;
+      background: var(--colorblack);
+      color: var(--color0);
+      overflow: hidden;
+      transition: all .2s ease;
+      z-index: 9999;
+      display: none;
+      overflow-y: scroll;
+    }
+    .sidebarOpen{
+      display: block;
+      animation: fadeInRight .6s ease-in-out;
+    }
+    .sideTop{
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 30px;
+    }
+    .mobilMenu{
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      padding: 0 20px;
+    }
+
+    .mobilMenu li{
+      padding-bottom: 15px;
+      border-bottom: 1px solid var(--color1);
+    }
+    .sideBottom{
+      display: flex;
+      flex-direction: column;
+      padding: 20px;
+      gap: 20px;
+    }
+    .infoItem{
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .infoItem svg{
+      color: var(--color8);
+    }
+    .social{
+      display: flex;
+      gap: 20px;
+    }
+    .social a{
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--color1);
+      padding: 10px;
+      border-radius: 50%;
+      font-size: 18px;
+      color: var(--color8);
+    }
+
+    @keyframes fadeInRight {
+      from {
+        opacity: 0;
+        transform: translateX(300px);
+      }
+      to {
+        opacity: 1;
+      }
+    }
+}

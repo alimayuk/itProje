@@ -1,0 +1,23 @@
+.item{
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    color: var(--color0);
+}
+.iconWrapper svg{
+    font-size: 64px;
+}
+.content{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.count{
+    font-size: 36px;
+    font-weight: 700;
+}
+
+.content .title{
+    font-size: 18px;
+    color: var(--color0);
+}

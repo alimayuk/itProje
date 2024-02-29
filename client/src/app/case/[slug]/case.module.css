@@ -1,0 +1,33 @@
+.container{
+    max-width: 986px;
+    height: 100%;
+    margin: 150px  auto 0;
+    padding: 0 10px;
+   
+}
+
+.info{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    padding: 30px 0;
+    border-top: 1px solid var(--color1);
+    border-bottom: 1px solid var(--color1);
+    gap: 20px;
+}
+
+.title{
+    color: var(--color8);
+}
+
+.answer{
+    font-weight: 500;
+}
+
+@media screen and (max-width: 768px) {
+    .info{
+        justify-content: center;
+        gap: 50px;
+    }
+}

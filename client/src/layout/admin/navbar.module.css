@@ -1,0 +1,85 @@
+.navbar {
+  display: flex;
+  padding: 20px 50px;
+  background: var(--color5);
+  color: var(--color0);
+  z-index: 999999;
+}
+
+.navbarContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  z-index: 999999;
+}
+
+.navMenu {
+  display: block;
+  min-height: 100%;
+}
+.titleLink{
+ font-size: 18px;
+ font-weight: 700;
+}
+.dropdownMenu {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
+
+.menuIcon {
+  display: block;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.navMenu {
+  width: 300px;
+  position: absolute;
+  top: 70px;
+  left: 0;
+  background-color: var(--color9);
+  transition: all 0.3s ease-in-out;
+  transform: translateX(-100%);
+}
+
+.navItem {
+  width: 100%;
+  padding: 20px 10px;
+  border-bottom: 1px solid var(--color2);
+}
+
+.drop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.dropdownItem {
+  padding: 10px 0;
+  font-size: 14px;
+}
+.dropdownMenu {
+  position: static;
+}
+
+.dropBtn {
+  display: inline-flex;
+  transition: all 0.2s ease;
+  border: 1px solid black;
+  padding: 10px;
+}
+
+.rotate {
+  rotate: 90deg;
+}
+
+.navMenu.active,
+.navItem:hover .dropdownMenu {
+  transform: translateX(0);
+}
+.dropdownMenu.active {
+  display: block;
+}

@@ -1,0 +1,46 @@
+.head {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.top {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 400;
+  color: var(--color8);
+}
+
+.bottom {
+  font-size: 42px;
+  font-weight: 700;
+}
+
+.bannerThreeBg3 {
+  position: absolute;
+  right: 0px;
+  bottom: 10px;
+  z-index: -1;
+}
+
+.cards{
+  margin-top: 50px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+}
+
+
+@media screen and (max-width:1024px) {
+  .bottom{
+    text-align: center;
+  }
+  .cards{
+    gap: 80px;
+  }
+}
