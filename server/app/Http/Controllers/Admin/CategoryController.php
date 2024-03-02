@@ -16,7 +16,7 @@ class CategoryController extends Controller
     public function index()
     {
         try {
-            $categories = Category::where("status",1)->orderBy("created_at","desc")->get();
+            $categories = Category::orderBy("created_at", "desc")->get();
             return response()->json(["categories" => $categories, "status" =>200]);
         } catch (\Throwable $th) {
             return response()->json(["message" => "Server Error", "status" =>500]);
@@ -39,7 +39,7 @@ class CategoryController extends Controller
             $data = $request->except('_token');
             $slug = Str::slug($data['title']);
             $data['slug'] = $this->slugCheck($slug);
-            
+            $data["user_id"] = "1";
             Category::create($data);
             return response()->json(["message" => "Category created", "status" => 201]);
         } catch (\Throwable $th) {
@@ -50,18 +50,18 @@ class CategoryController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
-    {
-       try {
-        $category = Category::where("status",1)->find($id);
-        if(is_null($category)){
+    public function show(string $slug)
+{
+    try {
+        $category = Category::where("slug", $slug)->first();
+        if(!$category){
             return response()->json(["message" => "Category not found", "status" => 404]);
         }
         return response()->json(["category" => $category, "status" => 200]);
-       } catch (\Throwable $th) {
+    } catch (\Exception $e) {
         return response()->json(["message" => "Server error", "status" => 500]);
-       }
     }
+}
 
     /**
      * Update the specified resource in storage.

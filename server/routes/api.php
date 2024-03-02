@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\BlogController;
 use App\Http\Controllers\Admin\ProjectController;
 use App\Http\Controllers\Admin\TestimonialController;
+use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\SettingsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -19,12 +20,19 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/user', function (Request $request) {
+        return $request->user();
+    });
+
+
+    Route::get('/valid', function () {
+        return response()->json(['valid' => auth()->check()]);
+    });
 });
 
 Route::get('/category', [CategoryController::class, "index"]);  
-Route::get('/category/{id}', [CategoryController::class, "show"]);
+Route::get('/category/{slug}', [CategoryController::class, "show"]);
 Route::post('/category', [CategoryController::class, "store"]);
 Route::post('/category/{id}', [CategoryController::class, "update"]);
 Route::delete('/category/{id}', [CategoryController::class, "destroy"]);
@@ -54,3 +62,9 @@ Route::get('/settings/{id}', [SettingsController::class, "show"]);
 Route::post('/settings', [SettingsController::class, "store"]);
 Route::post('/settings/{id}', [SettingsController::class, "update"]);
 Route::delete('/settings/{id}', [SettingsController::class, "destroy"]);
+
+
+Route::post("/logout", [AuthController::class, "logout"]);
+Route::post("/signup", [AuthController::class, "signup"]);
+Route::post("/login", [AuthController::class, "login"]);
+Route::get("/me/{id}", [AuthController::class, "me"]);

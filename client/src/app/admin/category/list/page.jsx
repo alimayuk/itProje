@@ -1,51 +1,24 @@
-import React from 'react'
-import styles from "./list.module.css"
-const page = () => {
-  return (
-    <div className={styles.page}>
-      <div className={styles.container}>
-        <h2>Category List</h2>
-        <div className={styles.lists}>
-          <div className={styles.item}>
-            <div className={styles.title}>
-              lorem lorem lorem
-            </div>
-            <div className={styles.middle}>
-            <div className={styles.statusBtn}>
-              Status
-            </div>
-            </div>
-            <div className={styles.actionBtns}>
-              <div className={styles.editBtn}>
-                Edit
-              </div>
-              <div className={styles.deleteBtn}>
-                Delete
-              </div>  
-            </div>
-          </div>
-          <div className={styles.item}>
-            <div className={styles.title}>
-              lorem lorem lorem
-            </div>
-            <div className={styles.middle}>
-            <div className={styles.statusBtn}>
-              Status
-            </div>
-            </div>
-            <div className={styles.actionBtns}>
-              <div className={styles.editBtn}>
-                Edit
-              </div>
-              <div className={styles.deleteBtn}>
-                Delete
-              </div>  
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  )
+import CatList from "@/components/CatList/CatList";
+import React from "react";
+
+async function getData() {
+  const res = await fetch(`${process.env.API_BASE_URL}/category`, {
+    cache: "no-store",
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  if (!res.ok) {
+    throw new Error("Failed to fetch data");
+  }
+  return res.json();
 }
 
-export default page
+const page = async () => {
+  const data = await getData();
+
+  return <CatList data={data} />;
+};
+
+export default page;
