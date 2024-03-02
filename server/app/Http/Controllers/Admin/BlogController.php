@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Models\Blog;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -14,7 +15,12 @@ class BlogController extends Controller
      */
     public function index()
     {
-        //
+        try {
+            $blogs = Blog::where('status', 1)->with("category:id,title")->orderBy('created_at', 'DESC')->get();
+            return response()->json(["blogs" => $blogs, "status" => 200]);
+        } catch (\Throwable $th) {
+           return response()->json(["message" => "server error", "status" =>500]);
+        }
     }
 
     /**

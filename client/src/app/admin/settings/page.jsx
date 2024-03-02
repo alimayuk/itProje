@@ -43,24 +43,6 @@ const page = () => {
           </div>
           <div className={styles.counterWrapper}>
             <div className={styles.item}>
-              <label htmlFor="">Satisfied Clients Number</label>
-              <input type="number" />
-            </div>
-            <div className={styles.item}>
-              <label htmlFor="">Finished Projects Number</label>
-              <input type="number" />
-            </div>
-            <div className={styles.item}>
-              <label htmlFor="">Skilled Experts Number</label>
-              <input type="number" />
-            </div>
-            <div className={styles.item}>
-              <label htmlFor="">Media Posts Number</label>
-              <input type="number" />
-            </div>
-          </div>
-          <div className={styles.counterWrapper}>
-            <div className={styles.item}>
               <label htmlFor="">Facebook URL</label>
               <input type="text" />
             </div>
@@ -77,6 +59,25 @@ const page = () => {
               <input type="text" />
             </div>
           </div>
+          <div className={styles.counterWrapper}>
+            <div className={styles.item}>
+              <label htmlFor="">Satisfied Clients Number</label>
+              <input type="number" min="0"/>
+            </div>
+            <div className={styles.item}>
+              <label htmlFor="">Finished Projects Number</label>
+              <input type="number" min="0"/>
+            </div>
+            <div className={styles.item}>
+              <label htmlFor="">Skilled Experts Number</label>
+              <input type="number" min="0"/>
+            </div>
+            <div className={styles.item}>
+              <label htmlFor="">Media Posts Number</label>
+              <input type="number" min="0"/>
+            </div>
+          </div>
+          <button type='submit' >Create</button>
           </form>
         </div>
     </div>
