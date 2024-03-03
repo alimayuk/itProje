@@ -17,7 +17,7 @@ async function getData() {
 
 const page = async () => {
   const data = await getData();
-
+  console.log(data);
   return <CatList data={data} />;
 };
 

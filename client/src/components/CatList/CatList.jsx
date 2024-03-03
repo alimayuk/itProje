@@ -1,12 +1,11 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, {useState } from "react";
 import styles from "./list.module.css";
 import Link from "next/link";
 
 const CatList = ({ data }) => {
-
   const [items, setItems] = useState(data.categories);
-  
+
   const handleDelete = async (id) => {
     try {
       const res = await fetch(`${process.env.API_BASE_URL}/category/${id}`, {
@@ -23,7 +22,7 @@ const CatList = ({ data }) => {
       console.error("Error deleting data:", error);
     }
   };
-  console.log(data.categories)
+  console.log(data.categories);
   return (
     <div className={styles.page}>
       <div className={styles.container}>
@@ -34,11 +33,20 @@ const CatList = ({ data }) => {
               <div className={styles.title}>{item.title}</div>
               <div className={styles.middle}>
                 <div className={styles.statusBtn}>
-                  {item.status == 1 ? <div className={styles.activeBtn}>Active</div> : <div className={styles.passiveBtn}>Passive</div>}
+                  {item.status == 1 ? (
+                    <div className={styles.activeBtn}>Active</div>
+                  ) : (
+                    <div className={styles.passiveBtn}>Passive</div>
+                  )}
                 </div>
               </div>
               <div className={styles.actionBtns}>
-                <Link href={`/admin/category/edit/${item.slug}`} className={styles.editBtn}>Edit</Link>
+                <Link
+                  href={`/admin/category/edit/${item.slug}`}
+                  className={styles.editBtn}
+                >
+                  Edit
+                </Link>
                 <div
                   onClick={() => handleDelete(item.id)}
                   className={styles.deleteBtn}

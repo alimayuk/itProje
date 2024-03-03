@@ -29,7 +29,7 @@ const page = () => {
       body: formdata,
     };
     fetch(`${process.env.API_BASE_URL}/category`, requestOptions)
-      .then((response) => response.text())
+      .then(window.location.reload())
       .then((result) => console.log(result))
       .catch((error) => console.log("error", error));
   };
