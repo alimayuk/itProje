@@ -16,7 +16,7 @@ class TestimonialController extends Controller
     public function index()
     {
         try {
-            $testimonials = Testimonial::where("status", 1)->orderBy("created_at", "desc")->get();
+            $testimonials = Testimonial::orderBy("created_at", "desc")->get();
             return response()->json(["testimonials" => $testimonials, "status" => 200]);
         } catch (\Throwable $th) {
             return response()->json(["message" => "Server Error", "status" => 500]);
@@ -51,6 +51,7 @@ class TestimonialController extends Controller
                 $image->storeAs('public/images', $uniqueImageName);
                 $data['image'] = $uniqueImageName;
             }
+            $data['user_id'] = 1;
             Testimonial::create($data);
             return response()->json(["message" => "Testimonial created", "status" => 201]);
         } catch (\Throwable $th) {
@@ -64,10 +65,11 @@ class TestimonialController extends Controller
     public function show(string $id)
     {
         try {
-            $testimonial = Testimonial::where("status", 1)->find($id);
+            $testimonial = Testimonial::find($id);
             if (is_null($testimonial)) {
                 return response()->json(["message" => "Testimonial not found", "status" => 404]);
             }
+            
             return response()->json(["testimonial" => $testimonial, "status" => 200]);
         } catch (\Throwable $th) {
             return response()->json(["message" => "server error", "status" => 500]);
@@ -80,6 +82,17 @@ class TestimonialController extends Controller
     public function update(Request $request, string $id)
     {
         try {
+            $validator = Validator::make(
+                $request->all(),
+                [
+                    "name" => ["required", "string", "max:30", "min:3"],
+                    "comment" => ["required", "string", "max:80", "min:10"]
+                ]
+            );
+            if ($validator->fails()) {
+                return response()->json(['errors' => $validator->errors()], 422);
+            }
+            
             $testimonial = Testimonial::find($id);
             if (is_null($testimonial)) {
                 return response()->json(["message" => "Testimonial not found", "status" => 404]);
@@ -97,6 +110,7 @@ class TestimonialController extends Controller
 
                 $data['image'] = $uniqueImageName;
             }
+            $data['user_id'] = 1;
             $testimonial->update($data);
             return response()->json(["message" => "Testimonial updated", "status" => 201]);
         } catch (\Throwable $th) {

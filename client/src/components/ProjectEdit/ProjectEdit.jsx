@@ -1,25 +1,25 @@
 "use client";
 import React, { useState } from "react";
 import styles from "./page.module.css";
-import "suneditor/dist/css/suneditor.min.css";
 import SunEditor from "suneditor-react";
-import { BlogService } from "@/services/blog.service";
+import "suneditor/dist/css/suneditor.min.css";
+import { ProjectService } from "@/services/project.service";
 import { useRouter } from "next/navigation";
 
-const BlogCreate = ({ cat }) => {
+const ProjectEdit = ({ data, cat }) => {
   const router = useRouter();
   const [inputs, setInputs] = useState({
-    title: "",
-    tags: "",
-    category_id: "",
-    read_time: "",
-    status: 0,
+    title: data.project.title,
+    client: data.project.client,
+    location: data.project.location,
+    category_id: data.project.category_id,
+    status: data.project.status,
   });
-  const [edit, setEdit] = useState("");
+  const [edit, setEdit] = useState(data.project.body);
   const [images, setImages] = useState([]);
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-    const newValue = type === "checkbox" ? (checked ? 1 : 0 ) : value;
+    const newValue = type === "checkbox" ? (checked ? 1 : 0) : value;
     setInputs((prev) => {
       return { ...prev, [name]: newValue };
     });
@@ -34,21 +34,21 @@ const BlogCreate = ({ cat }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const createBlog = await BlogService.createBlog(inputs, images, edit);
-      if (createBlog.status === 201) {
-        router.push("/admin/blog/list");
+      const updateProject = await ProjectService.updateProject(data.project.id,images,inputs,edit);
+      if (updateProject.status === 201) {
+        router.push("/admin/project/list");
         router.refresh();
       } else {
-        throw new Error("Failed to update data");
+        throw new Error("Couldn't update project");
       }
     } catch (error) {
-      console.error("Failed to update blog:", error);
+      throw new Error("Failed to update project");
     }
   };
   return (
     <div className={styles.page}>
       <div className={styles.container}>
-        <h2>Blog Create</h2>
+        <h2>Project Update</h2>
         <form
           className={styles.form}
           onSubmit={handleSubmit}
@@ -71,6 +71,7 @@ const BlogCreate = ({ cat }) => {
               width="100%"
               height="500px"
               name="body"
+              defaultValue={edit}
               onChange={editorChange}
               imageUploadHandler={handleImageChange}
               setOptions={{
@@ -114,20 +115,19 @@ const BlogCreate = ({ cat }) => {
             />
           </div>
           <div className={styles.formItem}>
-            <label className={styles.label}>Tags</label>
+            <label className={styles.label}>Client Name</label>
             <input
               className={styles.input}
               type="text"
-              placeholder="Tags"
-              name="tags"
-              value={inputs.tags}
+              placeholder="Client Name"
+              name="client"
+              value={inputs.client}
               onChange={handleChange}
             />
-            <small>(leave a comma between each word without decoupling)</small>
           </div>
           <div className={styles.selectItem}>
             <label className={styles.label}>Category</label>
-            <select name="category_id" onChange={handleChange}>
+            <select name="category_id" value={inputs.category_id} onChange={handleChange}>
               <option value="">Select</option>
               {cat.categories.map((item, index) => (
                 <option key={index} value={item.id}>
@@ -137,12 +137,13 @@ const BlogCreate = ({ cat }) => {
             </select>
           </div>
           <div className={styles.formItem}>
-            <label className={styles.label}>Read Time</label>
+            <label className={styles.label}>Location</label>
             <input
-              type="number"
+              type="text"
               className={styles.input}
-              name="read_time"
-              placeholder="Read Time"
+              placeholder="location"
+              name="location"
+              value={inputs.location}
               onChange={handleChange}
             ></input>
           </div>
@@ -152,18 +153,17 @@ const BlogCreate = ({ cat }) => {
               className={styles.input}
               type="checkbox"
               placeholder="Status"
-              value={1}
+              defaultValue={inputs.status}
               name="status"
+              defaultChecked={inputs.status === 1}
               onChange={handleChange}
             />
           </div>
-          <button type="submit" className={styles.btn}>
-            Create
-          </button>
+          <button className={styles.btn}>Create</button>
         </form>
       </div>
     </div>
   );
 };
 
-export default BlogCreate;
+export default ProjectEdit;

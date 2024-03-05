@@ -35,7 +35,7 @@
     border-radius: 5px;
     outline: none;
 }
-.ratinItem{
+.ratingItem{
     display: flex;
     flex-direction: column;
     gap: 10px;

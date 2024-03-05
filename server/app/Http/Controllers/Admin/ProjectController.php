@@ -16,10 +16,10 @@ class ProjectController extends Controller
     public function index()
     {
         try {
-            $projects = Project::where('status', 1)->with('category:id,title')->orderBy("created_at","desc")->get();
-            return response()->json(["projects" => $projects, "status" =>200]);
+            $projects = Project::with('category:id,title')->orderBy("created_at", "desc")->get();
+            return response()->json(["projects" => $projects, "status" => 200]);
         } catch (\Throwable $th) {
-            return response()->json(["message" => "server error", "status" =>500]);
+            return response()->json(["message" => "server error", "status" => 500]);
         }
     }
 
@@ -51,18 +51,17 @@ class ProjectController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(string $slug)
     {
         try {
-            $project = Project::find($id);
-        if(is_null($project)){
-            response()->json(["message" => "Project not found", "status" => 404]);
-        }  
-        return response()->json(["project" => $project, "status" => 200]);
+            $project = Project::where('slug', $slug)->with("category:id,title")->first();
+            if (is_null($project)) {
+                response()->json(["message" => "Project not found", "status" => 404]);
+            }
+            return response()->json(["project" => $project, "status" => 200]);
         } catch (\Throwable $th) {
             return response()->json(["message" => "Server error", "status" => 500]);
         }
-
     }
 
     /**
@@ -70,19 +69,28 @@ class ProjectController extends Controller
      */
     public function update(Request $request, string $id)
     {
-       try {
-        $project = Project::find($id);
-        if(is_null($project)){
-            return response()->json(["message" => "Project not found", "status" => 404]);
+        try {
+            $validator = Validator::make($request->all(), [
+                'title' => ['required', 'string', 'max:90', 'min:5'],
+                'body' => ['required', 'string', 'min:25']
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json(['errors' => $validator->errors()], 422);
+            }
+            
+            $project = Project::find($id);
+            if (is_null($project)) {
+                return response()->json(["message" => "Project not found", "status" => 404]);
+            }
+            $data = $request->except('_token');
+            $slug = Str::slug($data['title']);
+            $data['slug'] = $this->slugCheck($slug);
+            $project->update($data);
+            return response()->json(["message" => "Project updated", "status" => 201]);
+        } catch (\Throwable $th) {
+            return response()->json(["message" => "Server error", "status" => 500]);
         }
-        $data = $request->except('_token');
-        $slug = Str::slug($data['title']);
-        $data['slug'] = $this->slugCheck($slug);
-        $project->update($data);
-        return response()->json(["message" => "Project updated", "status" =>201]);
-       } catch (\Throwable $th) {
-        return response()->json(["message" => "Server error", "status" => 500]);
-       }
     }
 
     /**
@@ -90,16 +98,16 @@ class ProjectController extends Controller
      */
     public function destroy(string $id)
     {
-       try {
-        $project = Project::find($id);
-       if(is_null($project)){
-           return response()->json(["message" => "Project not found", "status" => 404]);
-       }
-       $project->delete();
-       return response()->json(["message" => "Project deleted", "status" => 201]);
-       } catch (\Throwable $th) {
-        return response()->json(["message" =>"server error", "status" =>500]);
-       }
+        try {
+            $project = Project::find($id);
+            if (is_null($project)) {
+                return response()->json(["message" => "Project not found", "status" => 404]);
+            }
+            $project->delete();
+            return response()->json(["message" => "Project deleted", "status" => 201]);
+        } catch (\Throwable $th) {
+            return response()->json(["message" => "server error", "status" => 500]);
+        }
     }
 
     public function slugCheck(string $text)

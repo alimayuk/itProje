@@ -1,23 +1,9 @@
 import CatList from "@/components/CatList/CatList";
+import { CategoryService } from "@/services/category.service";
 import React from "react";
 
-async function getData() {
-  const res = await fetch(`${process.env.API_BASE_URL}/category`, {
-    cache: "no-store",
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
-  if (!res.ok) {
-    throw new Error("Failed to fetch data");
-  }
-  return res.json();
-}
-
 const page = async () => {
-  const data = await getData();
-  console.log(data);
+  const data = await CategoryService.getCategoryList();
   return <CatList data={data} />;
 };
 

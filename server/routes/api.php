@@ -38,13 +38,13 @@ Route::post('/category/{id}', [CategoryController::class, "update"]);
 Route::delete('/category/{id}', [CategoryController::class, "destroy"]);
 
 Route::get('/blog', [BlogController::class, "index"]);  
-Route::get('/blog/{id}', [BlogController::class, "show"]);
+Route::get('/blog/{slug}', [BlogController::class, "show"]);
 Route::post('/blog', [BlogController::class, "store"]);
 Route::post('/blog/{id}', [BlogController::class, "update"]);
 Route::delete('/blog/{id}', [BlogController::class, "destroy"]);
 
 Route::get('/project', [ProjectController::class, "index"]);  
-Route::get('/project/{id}', [ProjectController::class, "show"]);
+Route::get('/project/{slug}', [ProjectController::class, "show"]);
 Route::post('/project', [ProjectController::class, "store"]);
 Route::post('/project/{id}', [ProjectController::class, "update"]);
 Route::delete('/project/{id}', [ProjectController::class, "destroy"]);

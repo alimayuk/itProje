@@ -34,7 +34,7 @@
     flex: 1;
 }
 
-.statusBtn, .detailBtn, .edit, .delete{
+.activeBtn, .passiveBtn , .detailBtn, .edit, .delete{
     max-width: max-content;
     padding: 10px 20px;
     color: var(--color0);
@@ -44,9 +44,14 @@
     border-radius: 5px;
 }
 
-.statusBtn{
+.activeBtn{
     background: var(--colorgreen);
 }
+
+.passiveBtn{
+    background: var(--colorred);
+}
+
 .detailBtn{
     user-select: none;
     background: var(--color8);

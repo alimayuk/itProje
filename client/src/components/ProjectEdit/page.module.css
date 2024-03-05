@@ -1,0 +1,91 @@
+.container{
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 50px 10px;
+}
+.container h2{
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 32px;
+    color: var(--colorblack);
+    margin-bottom: 20px;
+}
+
+.form{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    background: var(--color2);
+    max-width: 100%;
+    gap: 30px;
+    padding: 60px 10px;
+    border-radius: 10px;
+}
+
+.formItem{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 50%;
+}
+
+.formItem label, .label{
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--color3);
+}
+
+.sun{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.formItem input{
+    width: 100%;
+    padding: 10px;
+    border: 1px solid var(--color0);
+    border-radius: 5px;
+    outline: none;
+}
+
+.formItem textarea{
+    width: 100%;
+    padding: 10px;
+    border: 1px solid var(--color0);
+    border-radius: 5px;
+    outline: none;
+    max-width: 300px;
+}
+
+.selectItem{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.selectItem select{
+    width: 50%;
+    padding: 10px;
+    border: 1px solid var(--color0);
+    border-radius: 5px;
+    outline: none;
+}
+
+.checkboxItem{
+    display: flex;
+    gap: 10px;
+}
+
+.btn{
+    max-width: max-content;
+    padding: 10px 40px;
+    border: 1px solid var(--color0);
+    border-radius: 5px;
+    outline: none;
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--color0);
+    background: var(--color8);
+    cursor: pointer;
+}

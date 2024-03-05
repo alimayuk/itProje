@@ -27,6 +27,10 @@
   padding: 25px 10px;
 }
 
+.item img{
+  object-fit: cover;
+}
+
 .first {
   display: flex;
   align-items: center;
@@ -37,7 +41,8 @@
   display: flex;
   justify-content: space-evenly;
 }
-.statusBtn,
+.activeBtn,
+.passiveBtn,
 .ratingBtn,
 .editBtn,
 .deleteBtn {
@@ -50,11 +55,13 @@
   line-height: 40px;
   text-align: center;
   cursor: pointer;
-  background-color: red;
 }
 
-.statusBtn {
+.activeBtn {
   background-color: var(--colorgreen);
+}
+.passiveBtn{
+  background-color: var(--colorred);
 }
 
 .ratingBtn {

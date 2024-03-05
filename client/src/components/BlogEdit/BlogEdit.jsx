@@ -1,25 +1,25 @@
 "use client";
 import React, { useState } from "react";
 import styles from "./page.module.css";
-import "suneditor/dist/css/suneditor.min.css";
 import SunEditor from "suneditor-react";
+import "suneditor/dist/css/suneditor.min.css";
 import { BlogService } from "@/services/blog.service";
 import { useRouter } from "next/navigation";
 
-const BlogCreate = ({ cat }) => {
+const BlogEdit = ({ data, cat }) => {
   const router = useRouter();
   const [inputs, setInputs] = useState({
-    title: "",
-    tags: "",
-    category_id: "",
-    read_time: "",
-    status: 0,
+    title: data.blog.title,
+    tags: data.blog.tags,
+    category_id: data.blog.category_id,
+    read_time: data.blog.read_time,
+    status: data.blog.status,
   });
-  const [edit, setEdit] = useState("");
+  const [edit, setEdit] = useState(data.blog.body);
   const [images, setImages] = useState([]);
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-    const newValue = type === "checkbox" ? (checked ? 1 : 0 ) : value;
+    const newValue = type === "checkbox" ? (checked ? "1" : "0") : value;
     setInputs((prev) => {
       return { ...prev, [name]: newValue };
     });
@@ -34,11 +34,11 @@ const BlogCreate = ({ cat }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const createBlog = await BlogService.createBlog(inputs, images, edit);
-      if (createBlog.status === 201) {
+      const updatedBlog =  await BlogService.updateBlog(data.blog.id, images, inputs, edit);
+      if(updatedBlog.status === 201){
         router.push("/admin/blog/list");
         router.refresh();
-      } else {
+      }else{
         throw new Error("Failed to update data");
       }
     } catch (error) {
@@ -48,7 +48,7 @@ const BlogCreate = ({ cat }) => {
   return (
     <div className={styles.page}>
       <div className={styles.container}>
-        <h2>Blog Create</h2>
+        <h2>Blog Update</h2>
         <form
           className={styles.form}
           onSubmit={handleSubmit}
@@ -71,6 +71,7 @@ const BlogCreate = ({ cat }) => {
               width="100%"
               height="500px"
               name="body"
+              defaultValue={edit}
               onChange={editorChange}
               imageUploadHandler={handleImageChange}
               setOptions={{
@@ -127,7 +128,11 @@ const BlogCreate = ({ cat }) => {
           </div>
           <div className={styles.selectItem}>
             <label className={styles.label}>Category</label>
-            <select name="category_id" onChange={handleChange}>
+            <select
+              name="category_id"
+              value={inputs.category_id}
+              onChange={handleChange}
+            >
               <option value="">Select</option>
               {cat.categories.map((item, index) => (
                 <option key={index} value={item.id}>
@@ -142,6 +147,7 @@ const BlogCreate = ({ cat }) => {
               type="number"
               className={styles.input}
               name="read_time"
+              value={inputs.read_time}
               placeholder="Read Time"
               onChange={handleChange}
             ></input>
@@ -152,13 +158,14 @@ const BlogCreate = ({ cat }) => {
               className={styles.input}
               type="checkbox"
               placeholder="Status"
-              value={1}
+              defaultValue={inputs.status}
               name="status"
+              defaultChecked={inputs.status === 1}
               onChange={handleChange}
             />
           </div>
           <button type="submit" className={styles.btn}>
-            Create
+            Update
           </button>
         </form>
       </div>
@@ -166,4 +173,4 @@ const BlogCreate = ({ cat }) => {
   );
 };
 
-export default BlogCreate;
+export default BlogEdit;

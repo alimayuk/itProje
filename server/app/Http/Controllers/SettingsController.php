@@ -81,6 +81,7 @@ class SettingsController extends Controller
 
             $data['logo_pathname'] = $uniqueImageName;
         }
+        $data["user_id"] = 1;
         $setting->update($data);
         return response()->json(["message" => "Setting updated", "status" => 201]);
        } catch (\Throwable $th) {
