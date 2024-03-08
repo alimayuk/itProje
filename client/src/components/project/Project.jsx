@@ -1,11 +1,11 @@
-"use client"
+"use client";
 import React from "react";
 import styles from "./project.module.css";
 import Slider from "react-slick";
 import Image from "next/image";
 import BlueTitle from "../blueTitle/BlueTitle";
 import ProjeCard from "../projectCard/ProjeCard";
-const Project = () => {
+const Project = ({ data }) => {
   var settings = {
     dots: true,
     infinite: true,
@@ -42,7 +42,7 @@ const Project = () => {
     ],
   };
   return (
-    <div className={`${styles.project} project`}>
+    <div className={`${styles.project} project`} id="case">
       <Image
         className={styles.serviceleft}
         src="/serviceleft.png"
@@ -65,42 +65,15 @@ const Project = () => {
 
         <div className={styles.slickWrapper}>
           <Slider {...settings}>
-            <ProjeCard
-              imgUrl={"/p1.webp"}
-              linkUrl={""}
-              subTitle={"Security"}
-              title={"Web Development"}
-            />
-            <ProjeCard
-              imgUrl={"/p3.jpeg"}
-              linkUrl={""}
-              subTitle={"Solution"}
-              title={"IT Management"}
-            />
-            <ProjeCard
-              imgUrl={"/p2.webp"}
-              linkUrl={""}
-              subTitle={"Security"}
-              title={"Network Security"}
-            />
-            <ProjeCard
-              imgUrl={"/p5.jpeg"}
-              linkUrl={""}
-              subTitle={"Solution"}
-              title={"Web Development"}
-            />
-            <ProjeCard
-              imgUrl={"/p1.webp"}
-              linkUrl={""}
-              subTitle={"Technology"}
-              title={"Platform Integration"}
-            />
-            <ProjeCard
-              imgUrl={"/p4.webp"}
-              linkUrl={""}
-              subTitle={"Security"}
-              title={"Network Security"}
-            />
+            {data.map((item) => (
+              <ProjeCard
+                key={item.id}
+                imgUrl={item.image}
+                linkUrl={item.slug}
+                subTitle={item.category.title}
+                title={item.title}
+              />
+            ))}
           </Slider>
         </div>
       </div>

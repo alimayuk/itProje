@@ -29,23 +29,18 @@ export const BlogService = {
     }
     return res.json();
   },
-  createBlog: async (inputs, images, edit) => {
+  createBlog: async (inputs, image, edit) => {
     try {
       var formdata = new FormData();
       for (const key in inputs) {
         formdata.append(key, inputs[key]);
       }
-
-      images.forEach((image) => {
-        formdata.append("images[]", image);
-      });
-
+      formdata.append("image", image)
       formdata.append("body", edit);
       const res = await fetch(`${process.env.API_BASE_URL}/blog`, {
         method: "POST",
         headers: {
           Accept: "application/json",
-          "X-Custom-Header": "header value",
         },
         body: formdata,
       });

@@ -65,23 +65,22 @@ class SettingsController extends Controller
     {
        try {
         $setting = Setting::find($id);
-        if(is_null($setting)){
+        if (is_null($setting)) {
             return response()->json(["message" => "Setting not found", "status" => 404]);
         }
         $data = $request->except('_token');
-        if (!is_null($request->image)) {
-            $image = $request->image;
-            $imageName = $image->getClientOriginalExtension();
-            $uniqueImageName = time() . rand(99, 9999) . "." . $imageName;
+
+       if ($request->hasFile('logo_pathname')) {
+            $image = $request->file('logo_pathname');
+            $uniqueImageName = time() . '_' . $image->getClientOriginalName();
             $image->storeAs('public/images', $uniqueImageName);
 
-            if (file_exists(public_path('storage/images/' . $setting->logo_pathname))) {
-                File::delete(public_path('storage/images/' . $setting->logo_pathname));
+            if ($setting->logo_pathname && file_exists(public_path('storage/images/' . $setting->logo_pathname))) {
+               File::delete(public_path('storage/images/' . $setting->logo_pathname));
             }
-
             $data['logo_pathname'] = $uniqueImageName;
         }
-        $data["user_id"] = 1;
+        $data["user_id"] = 1; 
         $setting->update($data);
         return response()->json(["message" => "Setting updated", "status" => 201]);
        } catch (\Throwable $th) {

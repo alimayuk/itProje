@@ -7,7 +7,7 @@ import { IoMdClose } from "react-icons/io";
 import { IoLocationSharp } from "react-icons/io5";
 import CustomBtn from "@/components/customBtn/CustomBtn";
 import Image from "next/image";
-const Navbar = () => {
+const Navbar =({data}) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const toggleSidebar = () => {
@@ -31,27 +31,27 @@ const Navbar = () => {
       <header className={`${isScrolled ? styles.sticky : styles.line} ${styles.navbar}`}>
         <div className={styles.nav}>
           <Link href="/" className={styles.logo}>
-           <Image src="/logo.svg" alt="logo" width={200} height={250} />
+           <Image src= {`${process.env.API_BASE_URLL}/storage/images/${data.logo_pathname}`} alt="logo" width={200} height={250} />
           </Link>
           <div className={styles.linksWrapper}>
             <ul className={styles.links}>
               <li>
-                <Link href="/">Home</Link>
+                <Link href="">Home</Link>
               </li>
               <li>
-                <Link href="/">About</Link>
+                <Link href="">About</Link>
               </li>
               <li>
-                <Link href="/">Case</Link>
+                <Link href="">Case</Link>
               </li>
               <li>
-                <Link href="/">Pricing</Link>
+                <Link href="">Pricing</Link>
               </li>
               <li>
-                <Link href="/">Testimonials</Link>
+                <Link href="">Testimonials</Link>
               </li>
               <li>
-                <Link href="/">Blog</Link>
+                <Link href="">Blog</Link>
               </li>
             </ul>
           </div>

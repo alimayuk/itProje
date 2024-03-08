@@ -1,10 +1,12 @@
+import { getCookie } from "cookies-next";
+
 export const TestimonialService = {
   getTestimonialDetail: async (id) =>{
     try {
       const res = await fetch(`${process.env.API_BASE_URL}/testimonial/${id}`,{
         method: "GET",
         headers: {
-          "Content-Type": "application/json",
+          Accept: "application/json",
         },
         cache: "no-store",
       });
@@ -44,13 +46,10 @@ export const TestimonialService = {
         method: "POST",
         headers: {
           Accept: "application/json",
-          "X-Custom-Header": "header value",
+          Authorization: `Bearer ${getCookie("access_token")}`
         },
         body: formdata,
       });
-      if (!res.ok) {
-        throw new Error("Failed to fetch data");
-      }
       return res.json();
     } catch (error) {
       console.log(error);

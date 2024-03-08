@@ -5,11 +5,12 @@ import Image from "next/image";
 import { FaLock } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
 import { useState } from "react";
+import { AuthService } from "@/services/auth.service";
+import { useRouter } from "next/navigation";
 
 export default function page() {
-  
-
-  const [email, setEmail] = useState("a@gmail.com");
+  const router = useRouter();
+  const [email, setEmail] = useState("ali@gmail.com");
   const [password, setPassword] = useState("123123a.");
   const [error, setError] = useState("");
 
@@ -17,21 +18,12 @@ export default function page() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await fetch("http://127.0.0.1:8000/api/login",{
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: email,
-          password: password,
-        })
-      })
-      .then((response)=>response.json())
-      .then((result) =>{
-        setCookie('access_token', result.access_token); 
-
-      })
+    const response = await AuthService.login(email, password);
+    if (response.status === 200) {
+      router.push("/admin/");
+    }else{
+      throw new Error("Failed to login");
+    }
     } catch (error) {
       console.log("Error", error);
     }
@@ -68,7 +60,7 @@ export default function page() {
           </div>
           {error && <div>{error}</div>}
           <button type="submit">Login</button>
-          <Link href="/register">Register</Link>
+          <Link href="/auth/register">Register</Link>
         </form>
       </div>
     </div>

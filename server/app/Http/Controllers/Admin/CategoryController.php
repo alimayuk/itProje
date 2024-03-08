@@ -15,12 +15,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        try {
-            $categories = Category::orderBy("created_at", "desc")->get();
-            return response()->json(["categories" => $categories, "status" =>200]);
-        } catch (\Throwable $th) {
-            return response()->json(["message" => "Server Error", "status" =>500]);
-        }
+        $categories = Category::orderBy("created_at", "desc")->get();
+        return response()->json(["categories" => $categories, "status" => 200]);
     }
 
     /**
@@ -32,7 +28,7 @@ class CategoryController extends Controller
             $validator = Validator::make($request->all(), [
                 'title' => ['required', 'string', 'max:255', 'min:5'],
             ]);
-    
+
             if ($validator->fails()) {
                 return response()->json(['errors' => $validator->errors()], 422);
             }
@@ -51,17 +47,13 @@ class CategoryController extends Controller
      * Display the specified resource.
      */
     public function show(string $slug)
-{
-    try {
+    {
         $category = Category::where("slug", $slug)->first();
-        if(!$category){
+        if (!$category) {
             return response()->json(["message" => "Category not found", "status" => 404]);
         }
         return response()->json(["category" => $category, "status" => 200]);
-    } catch (\Exception $e) {
-        return response()->json(["message" => "Server error", "status" => 500]);
     }
-}
 
     /**
      * Update the specified resource in storage.
@@ -70,13 +62,13 @@ class CategoryController extends Controller
     {
         try {
             $category = Category::find($id);
-            if(is_null($category)){
+            if (is_null($category)) {
                 return response()->json(["message" => "Category not found", "status" => 404]);
             }
             $validator = Validator::make($request->all(), [
                 'title' => ['required', 'string', 'max:255', 'min:5'],
             ]);
-    
+
             if ($validator->fails()) {
                 return response()->json(['errors' => $validator->errors()], 422);
             }
@@ -95,16 +87,12 @@ class CategoryController extends Controller
      */
     public function destroy(string $id)
     {
-        try {
-            $category = Category::find($id);
-            if(is_null($category)){
-                return response()->json(["message" => "Category not found", "status" => 404]);
-            }
-            $category->delete();
-            return response()->json(["message" => "Category deleted", "status" => 201]);
-        } catch (\Throwable $th) {
-           return response()->json(["message"=>"Server Error", "status" => 500]);
+        $category = Category::find($id);
+        if (is_null($category)) {
+            return response()->json(["message" => "Category not found", "status" => 404]);
         }
+        $category->delete();
+        return response()->json(["message" => "Category deleted", "status" => 201]);
     }
 
     public function slugCheck(string $text)

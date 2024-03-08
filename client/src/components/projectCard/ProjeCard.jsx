@@ -7,10 +7,10 @@ const ProjeCard = ({imgUrl,linkUrl,subTitle,title}) => {
   return (
     <div className={styles.slickItem}>
     <div className={styles.image}>
-      <Image src={imgUrl} fill alt="a" />
+      <Image src={imgUrl ? `${process.env.API_BASE_URLL}/storage/images/${imgUrl}` : "/p1.webp"} fill alt="a" />
     </div>
     <div className={styles.itemLink}>
-      <Link href={linkUrl}><FaArrowRight /></Link>
+      <Link href={`/case/${linkUrl}`}><FaArrowRight /></Link>
     </div>
     <div className={styles.content}>
       <div className={styles.contenttitle}>

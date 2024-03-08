@@ -6,7 +6,7 @@ import Image from "next/image";
 import { FaPhoneVolume } from "react-icons/fa";
 const About = () => {
   return (
-    <div className={styles.about}>
+    <div className={styles.about} id="about">
       <div className={styles.container}>
         <div className={styles.content}>
           <div className={styles.top}>

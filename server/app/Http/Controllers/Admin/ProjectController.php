@@ -3,10 +3,14 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\ProjectRequest;
+use App\Http\Requests\Admin\ProjeRequest;
 use App\Models\Project;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use Symfony\Component\DomCrawler\Crawler;
 
 class ProjectController extends Controller
 {
@@ -15,37 +19,28 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        try {
-            $projects = Project::with('category:id,title')->orderBy("created_at", "desc")->get();
-            return response()->json(["projects" => $projects, "status" => 200]);
-        } catch (\Throwable $th) {
-            return response()->json(["message" => "server error", "status" => 500]);
-        }
+        $projects = Project::with('category:id,title')->orderBy("created_at", "desc")->get();
+        return response()->json(["projects" => $projects, "status" => 200]);
     }
-
+  
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(ProjectRequest $request)
     {
-        try {
-            $validator = Validator::make($request->all(), [
-                'title' => ['required', 'string', 'max:90', 'min:5'],
-                'body' => ['required', 'string', 'min:25']
-            ]);
-
-            if ($validator->fails()) {
-                return response()->json(['errors' => $validator->errors()], 422);
+        $data = $request->except('_token');
+        $slug = Str::slug($data['title']);
+        $data['slug'] = $this->slugCheck($slug);
+        if ($request->images) {
+            foreach ($request->images as $image) {
+                $imageName = $image->getClientOriginalExtension();
+                $uniqueImageName = time() . rand(99, 9999) . "." . $imageName;
+                $image->move(public_path('storage/images'), $uniqueImageName);
+                $data['image'] = $uniqueImageName;
             }
-
-            $data = $request->except('_token');
-            $slug = Str::slug($data['title']);
-            $data['slug'] = $this->slugCheck($slug);
-            Project::create($data);
-            return response()->json(["message" => "Project created", "status" => 201]);
-        } catch (\Throwable $th) {
-            return response()->json(["message" => "Server error", "status" => 500]);
         }
+        Project::create($data);
+        return response()->json(["message" => "Project created", "status" => 201]);
     }
 
     /**
@@ -53,44 +48,27 @@ class ProjectController extends Controller
      */
     public function show(string $slug)
     {
-        try {
-            $project = Project::where('slug', $slug)->with("category:id,title")->first();
-            if (is_null($project)) {
-                response()->json(["message" => "Project not found", "status" => 404]);
-            }
-            return response()->json(["project" => $project, "status" => 200]);
-        } catch (\Throwable $th) {
-            return response()->json(["message" => "Server error", "status" => 500]);
+        $project = Project::where('slug', $slug)->with("category:id,title")->first();
+        if (is_null($project)) {
+            return response()->json(["message" => "Project not found", "status" => 404]);
         }
+        return response()->json(["project" => $project, "status" => 200]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(ProjectRequest $request, string $id)
     {
-        try {
-            $validator = Validator::make($request->all(), [
-                'title' => ['required', 'string', 'max:90', 'min:5'],
-                'body' => ['required', 'string', 'min:25']
-            ]);
-
-            if ($validator->fails()) {
-                return response()->json(['errors' => $validator->errors()], 422);
-            }
-            
-            $project = Project::find($id);
-            if (is_null($project)) {
-                return response()->json(["message" => "Project not found", "status" => 404]);
-            }
-            $data = $request->except('_token');
-            $slug = Str::slug($data['title']);
-            $data['slug'] = $this->slugCheck($slug);
-            $project->update($data);
-            return response()->json(["message" => "Project updated", "status" => 201]);
-        } catch (\Throwable $th) {
-            return response()->json(["message" => "Server error", "status" => 500]);
+        $project = Project::find($id);
+        if (is_null($project)) {
+            return response()->json(["message" => "Project not found", "status" => 404]);
         }
+        $data = $request->except('_token');
+        $slug = Str::slug($data['title']);
+        $data['slug'] = $this->slugCheck($slug);
+        $project->update($data);
+        return response()->json(["message" => "Project updated", "status" => 201]);
     }
 
     /**
@@ -98,16 +76,14 @@ class ProjectController extends Controller
      */
     public function destroy(string $id)
     {
-        try {
-            $project = Project::find($id);
-            if (is_null($project)) {
-                return response()->json(["message" => "Project not found", "status" => 404]);
-            }
-            $project->delete();
-            return response()->json(["message" => "Project deleted", "status" => 201]);
-        } catch (\Throwable $th) {
-            return response()->json(["message" => "server error", "status" => 500]);
+        $project = Project::find($id);
+        $this->deleteImagesFromPost($project->body);
+        
+        if (is_null($project)) {
+            return response()->json(["message" => "Project not found", "status" => 404]);
         }
+        $project->delete();
+        return response()->json(["message" => "Project deleted", "status" => 201]);
     }
 
     public function slugCheck(string $text)
@@ -118,6 +94,25 @@ class ProjectController extends Controller
         } else {
             $text = Str::slug($text) . "-" . rand(1, 1000);
             return $text;
+        }
+    }
+
+    
+    /**
+     *
+     * @param  string  $content
+     * @return void
+     */
+    public function deleteImagesFromPost($postContent)
+    {
+        $crawler = new Crawler($postContent);
+        $imageSrcs = $crawler->filter('img')->extract(['src']);
+
+        foreach ($imageSrcs as $src) {
+            $fileName = basename($src);
+            if (file_exists(public_path('storage/images/' . $fileName))) {
+                File::delete(public_path('storage/images/' . $fileName));
+            }
         }
     }
 }

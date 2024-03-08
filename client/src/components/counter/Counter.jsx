@@ -7,7 +7,7 @@ import { MdOutlinePermMedia } from "react-icons/md";
 import Image from "next/image";
 import CounterCard from "../counterCard/CounterCard";
 
-const Counter = () => {
+const Counter = ({data}) => {
   return (
     <div className={styles.counter}>
       <div className={styles.container}>
@@ -25,22 +25,22 @@ const Counter = () => {
         <div className={styles.items}>
           <CounterCard
             svgUrl={<FaRegHandshake />}
-            count={"3,212+"}
+            count={data.satisfied_count}
             title={"Satisfied Clients"}
           />
           <CounterCard
             svgUrl={<GiTeamIdea />}
-            count={"122+"}
+            count={data.finish_project_count}
             title={"Finished Projects"}
           />
           <CounterCard
             svgUrl={<SiMusicbrainz />}
-            count={"250+"}
+            count={data.experts_count}
             title={"Skilled Experts"}
           />
           <CounterCard
             svgUrl={<MdOutlinePermMedia />}
-            count={"590+"}
+            count={data.media_post_count}
             title={"Media Posts"}
           />
         </div>

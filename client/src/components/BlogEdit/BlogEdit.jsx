@@ -65,6 +65,16 @@ const BlogEdit = ({ data, cat }) => {
               onChange={handleChange}
             />
           </div>
+          <div className={styles.formItem}>
+          <Image
+              alt="as"
+              src={`${process.env.API_BASE_URLL}/storage/images/${data.testimonial.image}`}
+              width={50}
+              height={50}
+            />
+            <label className={styles.label}>Image</label>
+            <input type="file" id="file" name="image" onChange={handleImageChange} />
+          </div>
           <div className={styles.sun}>
             <label className={styles.label}>Description</label>
             <SunEditor

@@ -25,7 +25,7 @@ class AuthController extends Controller
                 'success' => true,
                 'message' => "Registration successful."
             ];
-            return response()->json($response, 201);
+            return response()->json(["response" => $response, "status" =>201]);
         } catch (\Throwable $th) {
             $response = [
                 'success' => false,
@@ -48,7 +48,7 @@ class AuthController extends Controller
 
 
         return response()->json([
-            'success' => true,
+            'status' => 200,
             'user' => [
                 'id' => $user->id,
                 'email' => $user->email,

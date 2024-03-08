@@ -7,7 +7,7 @@ import BlueTitle from "../blueTitle/BlueTitle";
 
 const Pricing = () => {
   return (
-    <div className={styles.pricing}>
+    <div className={styles.pricing} id="pricing">
       <div className={styles.container}>
         <BlueTitle
         subTitle={"FROM OUR CASE STUDIES"}

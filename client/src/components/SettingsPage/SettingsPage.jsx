@@ -50,7 +50,6 @@ const SettingsPage = ({ data }) => {
       throw new Error("Failed to update settings");
     }
   };
-  console.log(inputs);
   return (
     <div className={styles.page}>
       <div className={styles.container}>

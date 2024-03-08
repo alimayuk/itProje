@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./page.module.css";
 import SunEditor from "suneditor-react";
 import "suneditor/dist/css/suneditor.min.css";
@@ -17,6 +17,7 @@ const ProjectCreate = ({ cat }) => {
   });
   const [edit, setEdit] = useState("");
   const [images, setImages] = useState([]);
+
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     const newValue = type === "checkbox" ? (checked ? 1 : 0) : value;
@@ -24,6 +25,35 @@ const ProjectCreate = ({ cat }) => {
       return { ...prev, [name]: newValue };
     });
   };
+  function onImageUploadBefore() {
+    return (files, _info, uploadHandler) => {
+      (async () => {
+        const formdata = new FormData();
+        formdata.append("file", files[0]);
+        const response = await fetch(`${process.env.API_BASE_URL}/editor/image`, {
+          method: "POST",
+          body: formdata,
+          headers: {
+            Accept: "application/json",
+          },
+        });
+        const data = await response.json();
+
+        const res = {
+          result: [
+            {
+              url: `${process.env.API_BASE_URLL}/storage/images/${data.data}`,
+              name: "thumbnail",
+            },
+          ],
+        };
+
+        uploadHandler(res);
+      })();
+      uploadHandler();
+    };
+  }
+  
   const editorChange = (content) => {
     setEdit(content);
   };
@@ -69,19 +99,26 @@ const ProjectCreate = ({ cat }) => {
               onChange={handleChange}
             />
           </div>
+          <div className={styles.formItem}>
+            <label className={styles.label}>İmage</label>
+            <input
+              className={styles.input}
+              type="file"
+              onChange={handleImageChange}
+            />
+          </div>
           <div className={styles.sun}>
             <label className={styles.label}>Description</label>
             <SunEditor
               width="100%"
               height="500px"
               name="body"
+              value={edit}
               onChange={editorChange}
-              imageUploadHandler={handleImageChange}
+              onImageUploadBefore={onImageUploadBefore()}
               setOptions={{
                 buttonList: [
                   [
-                    "undo",
-                    "redo",
                     "font",
                     "fontSize",
                     "formatBlock",
@@ -90,9 +127,6 @@ const ProjectCreate = ({ cat }) => {
                     "bold",
                     "underline",
                     "italic",
-                    "strike",
-                    "subscript",
-                    "superscript",
                     "fontColor",
                     "hiliteColor",
                     "textStyle",
@@ -110,8 +144,6 @@ const ProjectCreate = ({ cat }) => {
                     "showBlocks",
                     "codeView",
                     "preview",
-                    "print",
-                    "save",
                   ],
                 ],
               }}
@@ -132,7 +164,7 @@ const ProjectCreate = ({ cat }) => {
             <label className={styles.label}>Category</label>
             <select name="category_id" onChange={handleChange}>
               <option value="">Select</option>
-              {cat.categories.map((item, index)=>(
+              {cat.categories.map((item, index) => (
                 <option key={index} value={item.id}>
                   {item.title}
                 </option>

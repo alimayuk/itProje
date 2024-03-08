@@ -16,7 +16,7 @@ const BlogCreate = ({ cat }) => {
     status: 0,
   });
   const [edit, setEdit] = useState("");
-  const [images, setImages] = useState([]);
+  const [image, setImage] = useState("");
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     const newValue = type === "checkbox" ? (checked ? 1 : 0 ) : value;
@@ -28,13 +28,12 @@ const BlogCreate = ({ cat }) => {
     setEdit(content);
   };
   const handleImageChange = (e) => {
-    const selectedImages = Array.from(e.target.files);
-    setImages(selectedImages);
+    setImage(e.target.files[0]);
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const createBlog = await BlogService.createBlog(inputs, images, edit);
+      const createBlog = await BlogService.createBlog(inputs, image, edit);
       if (createBlog.status === 201) {
         router.push("/admin/blog/list");
         router.refresh();
@@ -45,6 +44,34 @@ const BlogCreate = ({ cat }) => {
       console.error("Failed to update blog:", error);
     }
   };
+  function onImageUploadBefore() {
+    return (files, _info, uploadHandler) => {
+      (async () => {
+        const formdata = new FormData();
+        formdata.append("file", files[0]);
+        const response = await fetch(`${process.env.API_BASE_URL}/editor/image`, {
+          method: "POST",
+          body: formdata,
+          headers: {
+            Accept: "application/json",
+          },
+        });
+        const data = await response.json();
+
+        const res = {
+          result: [
+            {
+              url: `${process.env.API_BASE_URLL}/storage/images/${data.data}`,
+              name: "thumbnail",
+            },
+          ],
+        };
+
+        uploadHandler(res);
+      })();
+      uploadHandler();
+    };
+  }
   return (
     <div className={styles.page}>
       <div className={styles.container}>
@@ -65,19 +92,26 @@ const BlogCreate = ({ cat }) => {
               onChange={handleChange}
             />
           </div>
+          <div className={styles.formItem}>
+            <label className={styles.label}>İmage</label>
+            <input
+              className={styles.input}
+              type="file"
+              onChange={handleImageChange}
+            />
+          </div>
           <div className={styles.sun}>
             <label className={styles.label}>Description</label>
             <SunEditor
               width="100%"
               height="500px"
               name="body"
+              value={edit}
               onChange={editorChange}
-              imageUploadHandler={handleImageChange}
+              onImageUploadBefore={onImageUploadBefore()}
               setOptions={{
                 buttonList: [
                   [
-                    "undo",
-                    "redo",
                     "font",
                     "fontSize",
                     "formatBlock",
@@ -86,9 +120,6 @@ const BlogCreate = ({ cat }) => {
                     "bold",
                     "underline",
                     "italic",
-                    "strike",
-                    "subscript",
-                    "superscript",
                     "fontColor",
                     "hiliteColor",
                     "textStyle",
@@ -106,8 +137,6 @@ const BlogCreate = ({ cat }) => {
                     "showBlocks",
                     "codeView",
                     "preview",
-                    "print",
-                    "save",
                   ],
                 ],
               }}

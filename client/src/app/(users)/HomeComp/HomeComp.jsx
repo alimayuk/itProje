@@ -1,4 +1,3 @@
-import Navbar from "@/layout/user/Navbar";
 import Hero from "@/components/hero/Hero";
 import Solution from "@/components/solution/Solution";
 import LogoCarousel from "@/components/logocarousel/LogoCarousel";
@@ -9,25 +8,24 @@ import Videobanner from "@/components/videobanner/Videobanner";
 import Pricing from "@/components/pricing/Pricing";
 import Testimonials from "@/components/testimonials/Testimonials";
 import Blogs from "@/components/blogs/Blogs";
-import Footer from "@/layout/user/Footer";
+import { ClientService } from "@/services/client.service";
 
-
-export default function Home() {
+const HomeComp = async () => {
+    const data = await ClientService.getAllData();
   return (
-    
-    <main>
-      <Navbar/>
-      <Hero/>
+    <>
+      <Hero />
       <Solution />
-      <LogoCarousel/>
+      <LogoCarousel />
       <About />
-      <Counter />
-      <Project />
+      <Counter data={data.counter[0]}/>
+      <Project data={data.projects} />
       <Videobanner />
       <Pricing />
-      <Testimonials />
-      <Blogs />
-      <Footer />
-    </main>
+      <Testimonials data={data.testimonials} />
+      <Blogs data={data.blogs} />
+    </>
   );
-}
+};
+
+export default HomeComp;

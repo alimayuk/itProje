@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\TestimonialRequest;
 use App\Models\Testimonial;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -26,38 +27,21 @@ class TestimonialController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
-    {
-        try {
-            $validator = Validator::make(
-                $request->all(),
-                [
-                    "name" => ["required", "string", "max:30", "min:3"],
-                    "comment" => ["required", "string", "max:80", "min:10"]
-                ]
-            );
-            if ($validator->fails()) {
-                return response()->json(['errors' => $validator->errors()], 422);
-            }
+    public function store(TestimonialRequest $request)
+    {   
+        $data = $request->except('_token');
+        $image = $request->file('image');
+        $uniqueImageName = time() . '_' . $image->getClientOriginalName();
+        $image->storeAs('public/images', $uniqueImageName);
 
-            $data = $request->except('_token');
-            if (!$request->image) {
-                return response()->json(['message' => 'file not found', "status" => 400]);
-            }
-            if ($request->image) {
-                $image = $request->image;
-                $imageName = $image->getClientOriginalExtension();
-                $uniqueImageName = time() . rand(99, 9999) . "." . $imageName;
-                $image->storeAs('public/images', $uniqueImageName);
-                $data['image'] = $uniqueImageName;
-            }
-            $data['user_id'] = 1;
-            Testimonial::create($data);
-            return response()->json(["message" => "Testimonial created", "status" => 201]);
-        } catch (\Throwable $th) {
-            return response()->json(["message" => "Server error", "status" => 500]);
-        }
+        $data['image'] = $uniqueImageName;
+        $data['user_id'] = auth()->id();
+
+        Testimonial::create($data);
+
+        return response()->json(["message" => "Testimonial created", "status" => 201]);
     }
+
 
     /**
      * Display the specified resource.
@@ -69,7 +53,7 @@ class TestimonialController extends Controller
             if (is_null($testimonial)) {
                 return response()->json(["message" => "Testimonial not found", "status" => 404]);
             }
-            
+
             return response()->json(["testimonial" => $testimonial, "status" => 200]);
         } catch (\Throwable $th) {
             return response()->json(["message" => "server error", "status" => 500]);
@@ -92,7 +76,7 @@ class TestimonialController extends Controller
             if ($validator->fails()) {
                 return response()->json(['errors' => $validator->errors()], 422);
             }
-            
+
             $testimonial = Testimonial::find($id);
             if (is_null($testimonial)) {
                 return response()->json(["message" => "Testimonial not found", "status" => 404]);

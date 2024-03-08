@@ -96,7 +96,7 @@ const page = () => {
           </div>
           {error && <div>{error}</div>}
           <button type="submit">Register</button>
-          <Link href="/login">Login</Link>
+          <Link href="/auth/login">Login</Link>
         </form>
       </div>
     </div>

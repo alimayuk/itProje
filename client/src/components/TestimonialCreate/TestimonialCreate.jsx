@@ -3,6 +3,7 @@ import { useState } from "react";
 import styles from "./page.module.css";
 import { TestimonialService } from "@/services/testimonial.service";
 import { useRouter } from "next/navigation";
+import { ToastContainer, toast } from "react-toastify";
 
 const TestimonialCreate = () => {
   const router = useRouter();
@@ -32,24 +33,31 @@ const TestimonialCreate = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      const createTestimonial = await TestimonialService.createTestimonial(
-        inputs,
-        image
-      );
-      if (createTestimonial.status === 201) {
+    const createTestimonial = await TestimonialService.createTestimonial(
+      inputs,
+      image
+    );
+    if (createTestimonial.status === 201) {
+      toast.success("Success Notification !", {
+        position: "bottom-right",
+      });
+      setTimeout(() => {
         router.push("/admin/testimonial/list");
         router.refresh();
-      } else {
-        throw new Error("Couldn't create testimonial");
-      }
-    } catch (error) {
-      throw new Error("Failed to create project");
+      }, 2000);
+    } else {
+      Object.keys(createTestimonial.errors).forEach((key) => {
+        toast.error(`${createTestimonial.errors[key]}`, {
+          position: "bottom-right",
+        });
+      });
     }
   };
+
   return (
     <div className={styles.page}>
       <div className={styles.container}>
+        <ToastContainer />
         <h2>Testimonial Create</h2>
         <form
           className={styles.form}
